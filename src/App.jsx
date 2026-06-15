@@ -273,7 +273,7 @@ const res = await fetch("/api/recommend", {
         <div className="container">
 
           <div className="header">
-            <div className="ribbon">✦ AI-Powered Gift Ideas</div>
+            <div className="ribbon">✦ Quick Gift Finder</div>
             <h1>Find the <span>Perfect</span> Gift.</h1>
             <p className="subtitle">Answer 4 quick questions and get 5 handpicked gift ideas in seconds.</p>
           </div>
