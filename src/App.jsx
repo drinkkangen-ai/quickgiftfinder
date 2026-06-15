@@ -248,21 +248,18 @@ export default function App() {
   const handleFind = async () => {
     setLoading(true); setError(""); setGifts(null);
     try {
-      const res = await fetch("https://api.anthropic.com/v1/messages", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          model: "claude-sonnet-4-20250514",
-          max_tokens: 1000,
-          messages: [{ role: "user", content: buildPrompt({ occasion, relationship, age, budget, selectedInterests }) }]
-        })
-      });
+const res = await fetch("/api/recommend", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ prompt: buildPrompt({ occasion, relationship, age, budget, selectedInterests }) })
+});
       const data = await res.json();
       const text = data.content.map(b => b.text || "").join("");
       const clean = text.replace(/```json|```/g, "").trim();
       setGifts(JSON.parse(clean).gifts);
-    } catch {
-      setError("Something went wrong. Please try again.");
+    } catch (err) {
+    setError("Error: " + err.message);
+    if (!res.ok) { setError("API error: " + JSON.stringify(data)); return; }
     } finally {
       setLoading(false);
     }
